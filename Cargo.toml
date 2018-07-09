@@ -1,0 +1,9 @@
+[package]
+name = "gypsum"
+version = "0.1.0"
+readme = "README.md"
+authors = ["Ivo C.S. Wingelaar <ivo.wingelaar@gmail.com>"]
+description = "A Rust library for drawing ASCII-style roguelike graphics targetting both native (GL) and wasm (WebGL) platforms"
+license = "MIT"
+
+[dependencies]
