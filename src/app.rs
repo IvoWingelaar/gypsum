@@ -47,11 +47,23 @@ impl App {
 
         let quad = quad::Quad::new(&self.gl, program, pos, tex);
 
+        let mut mousepos = (0.0, 0.0);
+
         let app = self.app.take().unwrap();
-        app.run(move |_app: &mut uni_app::App| {
+        app.run(move |app: &mut uni_app::App| {
             self.gl.clear_color(0.5, 0.5, 0.5, 1.0);
             self.gl.clear(webgl::BufferBit::Color);
 
+            for i in app.events.borrow().iter() {
+                match i {
+                    uni_app::AppEvent::MousePos(ref pos) => {
+                        mousepos = *pos;
+                    },
+                    _ => {},
+                }
+            }
+
+            quad.update_uniforms(&self.gl, 1.0);
             quad.draw(&self.gl);
         });
     }
