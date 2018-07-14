@@ -1,3 +1,5 @@
+use file;
+use image;
 use program;
 use quad;
 use uni_app;
@@ -36,9 +38,56 @@ impl App {
         }
     }
 
+    fn texture_stuff(&self, file: &mut uni_app::fs::File) -> bool {
+        if !file.is_ready() {
+            return false;
+        }
+
+        let tex = self.gl.create_texture();
+        self.gl.bind_texture(&tex);
+
+        use webgl::TextureKind::Texture2d;
+        use webgl::TextureParameter::*;
+        use webgl::{TextureMagFilter, TextureMinFilter};
+
+        self.gl.tex_parameteri(
+            Texture2d,
+            TextureMagFilter,
+            TextureMagFilter::Nearest as i32,
+        );
+        self.gl.tex_parameteri(
+            Texture2d,
+            TextureMinFilter,
+            TextureMinFilter::Nearest as i32,
+        );
+
+        let wrap = webgl::TextureWrap::ClampToEdge as i32;
+
+        self.gl.tex_parameteri(Texture2d, TextureWrapS, wrap);
+        self.gl.tex_parameteri(Texture2d, TextureWrapT, wrap);
+
+        let content = file.read_binary().unwrap();
+        let im = image::load_from_memory(&content).unwrap().to_rgba();
+
+        self.upload_image(im.width() as u16, im.height() as u16, &im);
+        true
+    }
+
+    fn upload_image(&self, width: u16, height: u16, data: &[u8]) {
+        self.gl.tex_image2d(
+            webgl::TextureBindPoint::Texture2d,
+            0,
+            width,
+            height,
+            webgl::PixelFormat::Rgba,
+            webgl::PixelType::UnsignedByte,
+            data,
+        );
+    }
+
     pub fn run(mut self) {
-        let fs = include_str!("simple_quad_fs.glsl");
-        let vs = include_str!("simple_quad_vs.glsl");
+        let fs = include_str!("textured_quad_fs.glsl");
+        let vs = include_str!("textured_quad_vs.glsl");
 
         let program = program::create_program(&self.gl, vs, fs);
 
@@ -47,19 +96,23 @@ impl App {
 
         let quad = quad::Quad::new(&self.gl, program, pos, tex);
 
+        let mut f = file::new("simple-4x4.png");
+        let mut texture_loaded = self.texture_stuff(&mut f);
+
         let mut mousepos = (0.0, 0.0);
 
         let app = self.app.take().unwrap();
         app.run(move |app: &mut uni_app::App| {
+            if !texture_loaded {
+                texture_loaded = self.texture_stuff(&mut f);
+            }
+
             self.gl.clear_color(0.5, 0.5, 0.5, 1.0);
             self.gl.clear(webgl::BufferBit::Color);
 
             for i in app.events.borrow().iter() {
-                match i {
-                    uni_app::AppEvent::MousePos(ref pos) => {
-                        mousepos = *pos;
-                    },
-                    _ => {},
+                if let uni_app::AppEvent::MousePos(ref pos) = i {
+                    mousepos = *pos;
                 }
             }
 
