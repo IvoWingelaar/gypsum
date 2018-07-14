@@ -7,6 +7,5 @@ description = "A Rust library for drawing ASCII-style roguelike graphics targett
 license = "MIT"
 
 [dependencies]
-#uni-app = { git = "https://github.com/unrust/uni-app" }
-uni-app = { git = "https://github.com/IvoWingelaar/uni-app", branch = "glutin-0.17-upgrade" }
+uni-app = { git = "https://github.com/unrust/uni-app" }
 webgl = { git = "https://github.com/unrust/webgl" }
