@@ -30,6 +30,13 @@ impl App {
         let gl = webgl::WebGLRenderingContext::new(app.canvas());
         gl.viewport(0, 0, width, height);
 
+        gl.enable(webgl::Flag::Blend as i32);
+        gl.blend_equation(webgl::BlendEquation::FuncAdd);
+        gl.blend_func(
+            webgl::BlendMode::SrcAlpha,
+            webgl::BlendMode::OneMinusSrcAlpha,
+        );
+
         Self {
             _width: width,
             _height: height,
@@ -43,17 +50,20 @@ impl App {
             return false;
         }
 
-        let _texture = texture::new_and_setup(&self.gl);
+        let texture = texture::new_and_setup(&self.gl);
 
         let content = file.read_binary().unwrap();
         let im = image::load_from_memory(&content).unwrap().to_rgba();
+
+        self.gl.active_texture(0);
+        self.gl.bind_texture(&texture);
 
         texture::upload_rgba8(&self.gl, im.width() as u16, im.height() as u16, &im);
         true
     }
 
     pub fn run(mut self) {
-        let grid = Grid::new(&self.gl, 30, 20);
+        let grid = Grid::new(&self.gl, 200, 100);
 
         let mut f = file::new("simple-4x4.png");
         let mut texture_loaded = self.texture_stuff(&mut f);

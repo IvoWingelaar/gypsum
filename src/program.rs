@@ -45,7 +45,7 @@ pub fn create_program(
     program
 }
 
-trait AsDataSlice {
+pub trait AsDataSlice {
     fn as_data_slice(&self) -> &[u8];
 }
 
