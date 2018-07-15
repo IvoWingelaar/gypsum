@@ -2,6 +2,7 @@ use file;
 use image;
 use program;
 use quad;
+use texture;
 use uni_app;
 use webgl;
 
@@ -43,46 +44,13 @@ impl App {
             return false;
         }
 
-        let tex = self.gl.create_texture();
-        self.gl.bind_texture(&tex);
-
-        use webgl::TextureKind::Texture2d;
-        use webgl::TextureParameter::*;
-        use webgl::{TextureMagFilter, TextureMinFilter};
-
-        self.gl.tex_parameteri(
-            Texture2d,
-            TextureMagFilter,
-            TextureMagFilter::Nearest as i32,
-        );
-        self.gl.tex_parameteri(
-            Texture2d,
-            TextureMinFilter,
-            TextureMinFilter::Nearest as i32,
-        );
-
-        let wrap = webgl::TextureWrap::ClampToEdge as i32;
-
-        self.gl.tex_parameteri(Texture2d, TextureWrapS, wrap);
-        self.gl.tex_parameteri(Texture2d, TextureWrapT, wrap);
+        let _texture = texture::new_and_setup(&self.gl);
 
         let content = file.read_binary().unwrap();
         let im = image::load_from_memory(&content).unwrap().to_rgba();
 
-        self.upload_image(im.width() as u16, im.height() as u16, &im);
+        texture::upload_rgba8(&self.gl, im.width() as u16, im.height() as u16, &im);
         true
-    }
-
-    fn upload_image(&self, width: u16, height: u16, data: &[u8]) {
-        self.gl.tex_image2d(
-            webgl::TextureBindPoint::Texture2d,
-            0,
-            width,
-            height,
-            webgl::PixelFormat::Rgba,
-            webgl::PixelType::UnsignedByte,
-            data,
-        );
     }
 
     pub fn run(mut self) {

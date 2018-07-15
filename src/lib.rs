@@ -6,5 +6,6 @@ pub mod app;
 mod file;
 pub mod program;
 mod quad;
+mod texture;
 
 pub use app::App;
