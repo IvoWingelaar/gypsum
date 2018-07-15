@@ -1,7 +1,6 @@
 use file;
+use grid::Grid;
 use image;
-use program;
-use quad;
 use texture;
 use uni_app;
 use webgl;
@@ -20,7 +19,7 @@ impl App {
 
         let app = uni_app::App::new(uni_app::AppConfig {
             size: (width, height),
-            title: "test".into(),
+            title: "Title".into(),
             vsync: false,
             show_cursor: true,
             headless: false,
@@ -54,15 +53,7 @@ impl App {
     }
 
     pub fn run(mut self) {
-        let fs = include_str!("textured_quad_fs.glsl");
-        let vs = include_str!("textured_quad_vs.glsl");
-
-        let program = program::create_program(&self.gl, vs, fs);
-
-        let pos = self.gl.get_attrib_location(&program, "vert_pos").unwrap();
-        let tex = self.gl.get_attrib_location(&program, "vert_tex").unwrap();
-
-        let quad = quad::Quad::new(&self.gl, program, pos, tex);
+        let grid = Grid::new(&self.gl, 30, 20);
 
         let mut f = file::new("simple-4x4.png");
         let mut texture_loaded = self.texture_stuff(&mut f);
@@ -84,8 +75,7 @@ impl App {
                 }
             }
 
-            quad.update_uniforms(&self.gl, 1.0);
-            quad.draw(&self.gl);
+            grid.draw(&self.gl);
         });
     }
 }

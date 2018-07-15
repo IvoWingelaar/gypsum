@@ -4,6 +4,7 @@ extern crate webgl;
 
 pub mod app;
 mod file;
+mod grid;
 pub mod program;
 mod quad;
 mod texture;
