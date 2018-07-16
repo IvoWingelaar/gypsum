@@ -40,9 +40,9 @@ impl Grid {
         let pos = gl.get_attrib_location(&program, "vert_pos").unwrap();
         let tex = gl.get_attrib_location(&program, "vert_tex").unwrap();
 
-        let data = vec![5; size];
-        let fore = vec![(255, 0, 0, 0); size];
-        let back = vec![(0, 255, 0, 0); size];
+        let data = vec![4; size];
+        let fore = vec![(255, 255, 255, 0); size];
+        let back = vec![(0, 0, 0, 0); size];
 
         use program::AsDataSlice;
 
@@ -169,6 +169,19 @@ impl Grid {
         gl.uniform_2f(&self.scale, (2.0, 2.0));
         gl.uniform_2f(&self.row_col_count, (self.width as f32, self.height as f32));
         gl.uniform_1f(&self.cells_per_line, 4.0);
+    }
+
+    pub fn update_mouse(&mut self, mouse: (f64, f64)) {
+        for i in &mut self.fore {
+            *i = (255, 255, 255, 0);
+        }
+
+        if mouse.0 >= 0.0 && mouse.0 <= 1.0 && mouse.1 >= 0.0 && mouse.1 <= 1.0 {
+            let w = f64::floor(mouse.0 * self.width as f64) as usize;
+            let h = f64::floor(mouse.1 * self.height as f64) as usize;
+
+            self.fore[w + h * self.width] = (255, 0, 0, 0);
+        }
     }
 
     pub fn draw(&self, gl: &WebGLRenderingContext) {

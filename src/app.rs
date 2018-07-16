@@ -6,8 +6,8 @@ use uni_app;
 use webgl;
 
 pub struct App {
-    _width: u32,
-    _height: u32,
+    width: u32,
+    height: u32,
     app: Option<uni_app::App>,
     gl: webgl::WebGLRenderingContext,
 }
@@ -38,8 +38,8 @@ impl App {
         );
 
         Self {
-            _width: width,
-            _height: height,
+            width,
+            height,
             app: Some(app),
             gl,
         }
@@ -63,7 +63,7 @@ impl App {
     }
 
     pub fn run(mut self) {
-        let grid = Grid::new(&self.gl, 10, 10);
+        let mut grid = Grid::new(&self.gl, 20, 11);
 
         let mut f = file::new("simple-4x4.png");
         let mut texture_loaded = self.texture_stuff(&mut f);
@@ -84,6 +84,11 @@ impl App {
                     mousepos = *pos;
                 }
             }
+
+            grid.update_mouse((
+                mousepos.0 / f64::from(self.width),
+                mousepos.1 / f64::from(self.height),
+            ));
 
             grid.draw(&self.gl);
         });
