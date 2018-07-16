@@ -63,7 +63,7 @@ impl App {
     }
 
     pub fn run(mut self) {
-        let grid = Grid::new(&self.gl, 200, 100);
+        let grid = Grid::new(&self.gl, 10, 10);
 
         let mut f = file::new("simple-4x4.png");
         let mut texture_loaded = self.texture_stuff(&mut f);
