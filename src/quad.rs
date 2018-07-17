@@ -7,14 +7,10 @@ pub struct Quad {
     _tex: (WebGLBuffer, u32),
 }
 
-fn square(left: f32, up: f32, right: f32, down: f32) -> [f32; 8] {
-    [left, down, left, up, right, up, right, down]
-}
-
 impl Quad {
     pub fn new(gl: &WebGLRenderingContext, pos: u32, tex: u32) -> Self {
-        let pos_coords = square(0.0, 1.0, 1.0, 0.0);
-        let tex_coords = vec![0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0];
+        let pos_coords = [0.0, -2.0, 0.0, 0.0, 2.0, 0.0, 2.0, -2.0];
+        let tex_coords = [0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0];
 
         let vao = gl.create_vertex_array();
 
