@@ -9,6 +9,11 @@ repository ="https://github.com/IvoWingelaar/gypsum"
 keywords = ["roguelike", "opengl", "webgl"]
 license = "MIT"
 
+exclude = [
+    "/examples/*",
+    "/static/*",
+]
+
 [dependencies]
 uni-app = "0.1.0"
 uni-gl = "0.1.0"
