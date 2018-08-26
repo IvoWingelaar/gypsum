@@ -3,13 +3,13 @@ use grid::Grid;
 use image;
 use texture;
 use uni_app;
-use webgl;
+use uni_gl;
 
 pub struct App {
     width: u32,
     height: u32,
     app: Option<uni_app::App>,
-    gl: webgl::WebGLRenderingContext,
+    gl: uni_gl::WebGLRenderingContext,
 }
 
 impl App {
@@ -27,14 +27,14 @@ impl App {
             fullscreen: false,
         });
 
-        let gl = webgl::WebGLRenderingContext::new(app.canvas());
+        let gl = uni_gl::WebGLRenderingContext::new(app.canvas());
         gl.viewport(0, 0, width, height);
 
-        gl.enable(webgl::Flag::Blend as i32);
-        gl.blend_equation(webgl::BlendEquation::FuncAdd);
+        gl.enable(uni_gl::Flag::Blend as i32);
+        gl.blend_equation(uni_gl::BlendEquation::FuncAdd);
         gl.blend_func(
-            webgl::BlendMode::SrcAlpha,
-            webgl::BlendMode::OneMinusSrcAlpha,
+            uni_gl::BlendMode::SrcAlpha,
+            uni_gl::BlendMode::OneMinusSrcAlpha,
         );
 
         Self {
@@ -77,7 +77,7 @@ impl App {
             }
 
             self.gl.clear_color(0.5, 0.5, 0.5, 1.0);
-            self.gl.clear(webgl::BufferBit::Color);
+            self.gl.clear(uni_gl::BufferBit::Color);
 
             for i in app.events.borrow().iter() {
                 if let uni_app::AppEvent::MousePos(ref pos) = i {

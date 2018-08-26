@@ -3,12 +3,15 @@ name = "gypsum"
 version = "0.1.0"
 readme = "README.md"
 authors = ["Ivo C.S. Wingelaar <ivo.wingelaar@gmail.com>"]
-description = "A Rust library for drawing ASCII-style roguelike graphics targetting both native (GL) and wasm (WebGL) platforms"
+description = "A Rust library for drawing ASCII-style roguelike graphics targetting both native (OpenGL) and wasm (WebGL) platforms"
+documentation = "https://docs.rs/gypsum"
+repository ="https://github.com/IvoWingelaar/gypsum"
+keywords = ["roguelike", "opengl", "webgl"]
 license = "MIT"
 
 [dependencies]
-uni-app = { git = "https://github.com/unrust/uni-app" }
-webgl = { git = "https://github.com/unrust/webgl" }
+uni-app = "0.1.0"
+uni-gl = "0.1.0"
 
 [dependencies.image]
 version = "0.19.0"

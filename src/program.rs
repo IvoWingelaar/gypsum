@@ -1,5 +1,5 @@
 use std::mem::size_of;
-use webgl::*;
+use uni_gl::*;
 
 fn compile_shader(
     gl: &WebGLRenderingContext,

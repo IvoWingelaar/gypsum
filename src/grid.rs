@@ -1,7 +1,7 @@
 use program;
 use quad::Quad;
 use texture;
-use webgl::{WebGLProgram, WebGLRenderingContext, WebGLTexture, WebGLUniformLocation};
+use uni_gl::{WebGLProgram, WebGLRenderingContext, WebGLTexture, WebGLUniformLocation};
 
 pub type Color = (u8, u8, u8, u8);
 
@@ -165,8 +165,8 @@ impl Grid {
         }
 
         // TODO: magic numbers
-        gl.uniform_2f(&self.top_left, (0.25, 0.25));
-        gl.uniform_2f(&self.scale, (0.5, 0.5));
+        gl.uniform_2f(&self.top_left, (0.0, 0.0));
+        gl.uniform_2f(&self.scale, (1.0, 1.0));
         gl.uniform_2f(&self.row_col_count, (self.width as f32, self.height as f32));
         gl.uniform_1f(&self.cells_per_line, 4.0);
     }

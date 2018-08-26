@@ -1,5 +1,5 @@
 use program;
-use webgl::{AttributeSize, Primitives, WebGLBuffer, WebGLRenderingContext, WebGLVertexArray};
+use uni_gl::{AttributeSize, Primitives, WebGLBuffer, WebGLRenderingContext, WebGLVertexArray};
 
 pub struct Quad {
     vao: WebGLVertexArray,

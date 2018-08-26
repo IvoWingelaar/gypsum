@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/IvoWingelaar/gypsum.svg?branch=master)](https://travis-ci.com/IvoWingelaar/gypsum)
 
-A Rust library for drawing ASCII-style roguelike graphics targetting both native (GL) and wasm (WebGL) platforms.
+A Rust library for drawing ASCII-style roguelike graphics targetting both native (OpenGL) and wasm (WebGL) platforms.
 
 # Running
 
